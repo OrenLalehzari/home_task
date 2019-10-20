@@ -1,0 +1,39 @@
+<h1>Syte Task</h1>
+<input type='file' id='image_input' name="background-image"/>
+<div id="upload-progress" style="display: none; margin:0; color: green; margin-left: 10px;"><span id="upload-percentage"></span>
+</div>
+<br/><br/>
+
+<h2>Results:</h2>
+<p id="result">
+
+</p>
+{% block script %}
+
+<script type="text/javascript">
+    const result = document.getElementById('result');
+    const uri = 'predict';
+    document.getElementById('image_input').addEventListener('change', () => {
+            let file = document.getElementById("image_input").files[0];
+            const fd = new FormData();
+            fd.append('my_image', file);
+
+            const xhr = new XMLHttpRequest();
+            xhr.upload.addEventListener('progress', () => {
+                document.querySelector('#upload-percentage').innerText = 'Doing some work...';
+                document.querySelector('#upload-progress').style.display = 'inline-block';
+            });
+            xhr.open('POST', uri, true);
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.querySelector('#upload-progress').style.display = 'none';
+                    result.innerHTML = xhr.responseText
+                }
+            };
+            xhr.send(fd)
+        },
+        true
+    );
+
+</script>
+{% endblock %}

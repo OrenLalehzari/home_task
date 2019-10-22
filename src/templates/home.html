@@ -16,7 +16,7 @@
     document.getElementById('image_input').addEventListener('change', () => {
             let file = document.getElementById("image_input").files[0];
             const fd = new FormData();
-            fd.append('my_image', file);
+            fd.append('image_file', file);
 
             const xhr = new XMLHttpRequest();
             xhr.upload.addEventListener('progress', () => {
